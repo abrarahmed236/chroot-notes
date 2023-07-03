@@ -1,6 +1,35 @@
-# chroot
+# chroot notes
 
 Notes for using chroot and schroot properly
+
+## chroot and schroot
+
+### chroot
+
+`chroot` is a command used in Unix-like operating systems to change the root directory for a process or a set of processes.
+
+The basic syntax of the chroot command is as follows:
+
+```bash
+chroot NEWROOT [COMMAND [ARG]...]
+```
+
+When executing chroot you typically need administrative privileges
+
+```bash
+sudo chroot /path/to/newroot /bin/bash
+```
+
+Here /bin/bash is the shell that will be executed in the new chroot environment.
+
+Before you can chroot into a directory as root you need to set up that directory with necessary files and directories, and configuring the environment inside the chroot.
+
+### schroot
+
+Compared to the basic chroot command, schroot offers additional features and flexibility.
+
+> **Note:** look through the man page for schroot  
+> `man schroot`
 
 ## Sources
 
@@ -11,12 +40,13 @@ Notes for using chroot and schroot properly
 
 ## To-do
 
-* what is the difference between schroot and chroot ?
-* say i want to create three chroot directories to test three different configurations, create instructions for that
 * separate instructions for minimal setup and use case based sections
-* can you and should you run multiple sessoins of the same schroot environment ?
+  * basic usage
+  * advanced usage
 * you can start multiple sessions of the schroot environment.
   * what is the use of this ?
+* how do delete a chroot environment properly ?
+  * would it be enough to delete the `/chroot/environ_dir` directory and the config file in `/etc/schroot/chroot.d/` ? or do we need additional steps ?
 
 ## Installation
 
@@ -126,7 +156,7 @@ DISTRIB_DESCRIPTION="Ubuntu 16.04 LTS"
 $
 ```
 
-To enter a chroot with root privileges, append -u root to the command line:
+To enter a chroot with root privileges, append `-u root` to the command line:
 
 ```console
 $ schroot -c xenial -u root
@@ -135,7 +165,7 @@ $ schroot -c xenial -u root
 
 ## Manage Sessions (revisit)
 
-The simpliest `schroot -c` command mentioned in the previous section starts an automatic session before running the command and ends the automatic session after the command completes. When a session starts, `schroot` will mount the file systems and execute the start hooks. When a session ends, `schroot` will execute the exit hooks and unmount the file systems. It may be time consuming if you have to enter and leave a chroot several times.
+The `schroot -c` command mentioned in the previous section starts an automatic session before running the command and ends the automatic session after the command completes. When a session starts, `schroot` will mount the file systems and execute the start hooks. When a session ends, `schroot` will execute the exit hooks and unmount the file systems. It may be time consuming if you have to enter and leave a chroot several times.
 
 Under some circumstances (e.g. running several unit tests with `schroot`), it would be great to manage sessions manually. This section covers the command to start a session, list sessions, enter a session, and clean up a session.
 
@@ -161,7 +191,7 @@ $ schroot -b -c xenial -n mysession
 mysession
 ```
 
-### List all Schroot Sessoins
+### List all Schroot Sessions
 
 To list all schroot sessions, run schroot -l --all-sessions:
 
@@ -179,7 +209,7 @@ $ schroot -r -c xenial-05735790-a1ab-464b-8675-4e66111370d3
 (xenial)user@hostname:~$
 ```
 
-This is similar to the simpliest `schroot -c` command mentioned earlier. You may append command to be executed or specify `-u root` for root privileges.
+This is similar to the `schroot -c` command mentioned earlier. You may append command to be executed with `--` or specify `-u root` for root privileges. `schroot -r -c [session-name] -u root -- [command to append]`
 
 ### End a Schroot Session
 
@@ -189,4 +219,14 @@ To end a schroot session (i.e. unmount all file systems and execute the exit hoo
 schroot -e -c xenial-05735790-a1ab-464b-8675-4e66111370d3
 ```
 
-BTW, if the computer reboots before the simpliest `schroot -c` completes, the automatic session won't be ended. To clean up those sessions, you have to find their names with `schroot -l --all-sessions` and end those sessions with `schroot -e -c [session-name]`.
+### Untimely Reboots (doubtful)
+
+If a `schroot -c` command is running and the system reboots then the automatic session won't be ended. To  clean up these sessions you need to find their names with `schroot -l --all-sessions` and end those sessions with `schroot -e -c [session-name]`.
+
+```console
+$ schroot -l --all-sessions
+session:xenial-31c704ec-30e4-417c-834a-8d120647f597
+session:xenial-7d0a58f2-513b-419e-923f-e85689b60bd1
+session:xenial-fd7a5907-abe4-4480-8670-fe6a673167bd
+$ schroot -e -c [session-name]
+```
