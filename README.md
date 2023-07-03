@@ -33,19 +33,20 @@ Compared to the basic chroot command, schroot offers additional features and fle
 
 ## Sources
 
-[Logan\'s Note] | [Josiah Ulfers]
+[Logan\'s Note] | [Josiah Ulfers] | [Linode]
 
 [Josiah Ulfers]: <https://josiahulfers.com/2018/03/31/schroot-cheatsheet/>
 [Logan\'s Note]: <http://logan.tw/posts/2018/02/24/manage-chroot-environments-with-schroot/>
+[Linode]: <https://www.linode.com/docs/guides/use-chroot-for-testing-on-ubuntu/>
 
 ## To-do
 
 * separate instructions for minimal setup and use case based sections
   * basic usage
   * advanced usage
-* you can start multiple sessions of the schroot environment.
+* you can start multiple sessions of the same schroot environment.
   * what is the use of this ?
-* how do delete a chroot environment properly ?
+* how do you delete a chroot environment properly ?
   * would it be enough to delete the `/chroot/environ_dir` directory and the config file in `/etc/schroot/chroot.d/` ? or do we need additional steps ?
 
 ## Installation
@@ -230,3 +231,11 @@ session:xenial-7d0a58f2-513b-419e-923f-e85689b60bd1
 session:xenial-fd7a5907-abe4-4480-8670-fe6a673167bd
 $ schroot -e -c [session-name]
 ```
+
+### Deleting a chroot environment
+
+Enter the environment and unmount any mounted directories.
+Delete the folder `xenial` for example in `/srv/chroot/xenial`.
+Delete the config file for the environment in `/etc/schroot/chroot.d`.
+For example `/etc/schroot/chroot.d/xenial.conf`.
+The names for these files and folders will depend on what you name them when creating the chroot environment. Look at `xenial.conf` in this case to be clear if you are deleting the correct files and folders.
