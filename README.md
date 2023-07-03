@@ -4,12 +4,15 @@ Notes for using chroot and schroot properly
 
 ## Sources
 
-[Logan\'s Note]
-
-[Josiah Ulfers]
+[Logan\'s Note] | [Josiah Ulfers]
 
 [Josiah Ulfers]: <https://josiahulfers.com/2018/03/31/schroot-cheatsheet/>
 [Logan\'s Note]: <http://logan.tw/posts/2018/02/24/manage-chroot-environments-with-schroot/>
+
+## To-do
+
+* say i want to create three chroot directories to test three different configurations, create instructions for that
+* separate instructions for minimal setup and use case based sections
 
 ## Installation
 
@@ -25,12 +28,6 @@ Choose a location for creating the root directories for chroot.
 /srv    # is a reasonable location
 /var    # is sometimes used
 /chroot # is also used as a dedicated space
-```
-
-We will be using `/srv/chroot`, so we need to make that directory before we proceed
-
-```bash
-mkdir -p /srv/chroot
 ```
 
 ### Prepare a root filesystem
@@ -74,7 +71,7 @@ sudo vim /etc/schroot/chroot.d/xenial.conf
 And populate the configuration (substitute USERNAME with your user name)
 
 ```config
-[xenial]
+[xenial]                        # name, user defined
 description=Ubuntu 16.04 Xenial Xerus   # description
 directory=/srv/chroot/xenial    # root directory of the chroot environment
 root-users=USERNAME             # comma seperated list of users that can get
@@ -96,10 +93,21 @@ chroot:xenial
 
 > ### Note
 >
-> Schroot configuration files must be owned by root and must not be writable by other users.  
+> Schroot configuration files must be owned by root and must not be writable by other users.  Try `ls -al` in the directory `/etc/schroot/chroot.d/`
 
-> test  
->
-> ```bash
-> sudo vim test
-> ```  
+## Enter a Chroot Environment
+
+To enter a chroot environment, `run schroot -c [name]`:
+
+```console
+$ schroot -c xenial
+(xenial)user@hostname:~$
+```
+
+To leave a chroot environment, type `exit`:
+
+```console
+(xenial)user@hostname:~$ exit
+$
+```
+
