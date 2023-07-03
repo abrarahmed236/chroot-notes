@@ -105,6 +105,8 @@ sudo vim /etc/schroot/chroot.d/xenial.conf
 
 And populate the configuration (substitute USERNAME with your user name)
 
+> Note: remove comments in this file. white space after the config interferes with schroot
+
 ```config
 [xenial]                        # name, user defined
 description=Ubuntu 16.04 Xenial Xerus   # description
