@@ -241,3 +241,27 @@ Delete the folder `xenial` for example in `/srv/chroot/xenial`.
 Delete the config file for the environment in `/etc/schroot/chroot.d`.
 For example `/etc/schroot/chroot.d/xenial.conf`.
 The names for these files and folders will depend on what you name them when creating the chroot environment. Look at `xenial.conf` in this case to be clear if you are deleting the correct files and folders.
+
+## Sanity Installs
+
+Update the sources.list from this:
+
+```list
+deb http://us.archive.ubuntu.com/ubuntu/ bionic main
+```
+
+to this:
+
+```list
+deb http://us.archive.ubuntu.com/ubuntu/ bionic main
+deb http://us.archive.ubuntu.com/ubuntu/ bionic-security main
+deb http://us.archive.ubuntu.com/ubuntu/ bionic-updates main
+```
+
+Install bash-completion
+
+```bash
+sudo apt install bash-completion
+```
+
+exit and enter the chroot environment again.
