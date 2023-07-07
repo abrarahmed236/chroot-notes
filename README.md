@@ -261,7 +261,12 @@ deb http://us.archive.ubuntu.com/ubuntu/ bionic-updates main
 Install bash-completion
 
 ```bash
-sudo apt install bash-completion
+sudo apt install vim bash-completion tmux wget
+```
+
+if the environment is newer. (Ubuntu 23.04)
+```bash
+sudo apt install lsd
 ```
 
 exit and enter the chroot environment again.
