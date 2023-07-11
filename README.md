@@ -244,7 +244,7 @@ The names for these files and folders will depend on what you name them when cre
 
 ## Sanity Installs
 
-Update the sources.list from this:
+Update the /etc/apt/sources.list from this:
 
 ```list
 deb http://us.archive.ubuntu.com/ubuntu/ bionic main
@@ -265,8 +265,24 @@ sudo apt install vim bash-completion tmux wget
 ```
 
 if the environment is newer. (Ubuntu 23.04)
+
 ```bash
 sudo apt install lsd
 ```
 
+if older
+
+```bash
+cd ~/Downloads
+wget https://github.com/lsd-rs/lsd/releases/download/0.23.1/lsd_0.23.1_amd64.deb
+sudo dpkg -i lsd_0.23.1_amd64.deb
+
+```
+
 exit and enter the chroot environment again.
+
+## Dirty work around if sudo fails
+
+```bash
+echo 'your_username ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+```
