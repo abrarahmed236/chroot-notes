@@ -105,20 +105,13 @@ sudo vim /etc/schroot/chroot.d/xenial.conf
 
 And populate the configuration (substitute USERNAME with your user name)
 
-> Note: remove comments in this file. white space after the config interferes with schroot
-
 ```config
-[xenial]                        # name, user defined
-description=Ubuntu 16.04 Xenial Xerus   # description
-directory=/srv/chroot/xenial    # root directory of the chroot environment
-root-users=USERNAME             # comma seperated list of users that can get
-                                # root privileges by specifying '-u root'
-users=USERNAME                  # comma seperated list of users that have 
-                                # access to the chroot environment
-type=directory                  # either 'directory' or 'plain', plain won't run any
-                                # setup scripts, directory does convenient things
-                                # like mounting the home directory.
-#personality=linux32            # To run a 32-bit chroot environment on a x86-64 host
+[xenial]
+description=Ubuntu 16.04 Xenial Xerus
+directory=/srv/chroot/xenial
+root-users=USERNAME
+users=USERNAME
+type=directory
 ```
 
 After creating the configuration file, `schroot -l` should list the chroot environments that are available:
