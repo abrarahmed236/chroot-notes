@@ -166,6 +166,51 @@ $ schroot -c xenial -u root
 (xenial)root@hostname:/home/user#
 ```
 
+## Sanity Installs
+
+Update the /etc/apt/sources.list from this:
+
+```list
+deb http://us.archive.ubuntu.com/ubuntu/ bionic main
+```
+
+to this:
+
+```list
+deb http://us.archive.ubuntu.com/ubuntu/ bionic main
+deb http://us.archive.ubuntu.com/ubuntu/ bionic-security main
+deb http://us.archive.ubuntu.com/ubuntu/ bionic-updates main
+```
+
+Install bash-completion
+
+```bash
+sudo apt install vim bash-completion tmux wget
+```
+
+if the environment is newer. (Ubuntu 23.04)
+
+```bash
+sudo apt install lsd
+```
+
+if older
+
+```bash
+cd ~/Downloads
+wget https://github.com/lsd-rs/lsd/releases/download/0.23.1/lsd_0.23.1_amd64.deb
+sudo dpkg -i lsd_0.23.1_amd64.deb
+
+```
+
+exit and enter the chroot environment again.
+
+## Dirty work around if sudo fails
+
+```bash
+echo 'your_username ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+```
+
 ## Manage Sessions (revisit)
 
 The `schroot -c` command mentioned in the previous section starts an automatic session before running the command and ends the automatic session after the command completes. When a session starts, `schroot` will mount the file systems and execute the start hooks. When a session ends, `schroot` will execute the exit hooks and unmount the file systems. It may be time consuming if you have to enter and leave a chroot several times.
@@ -241,48 +286,3 @@ Delete the folder `xenial` for example in `/srv/chroot/xenial`.
 Delete the config file for the environment in `/etc/schroot/chroot.d`.
 For example `/etc/schroot/chroot.d/xenial.conf`.
 The names for these files and folders will depend on what you name them when creating the chroot environment. Look at `xenial.conf` in this case to be clear if you are deleting the correct files and folders.
-
-## Sanity Installs
-
-Update the /etc/apt/sources.list from this:
-
-```list
-deb http://us.archive.ubuntu.com/ubuntu/ bionic main
-```
-
-to this:
-
-```list
-deb http://us.archive.ubuntu.com/ubuntu/ bionic main
-deb http://us.archive.ubuntu.com/ubuntu/ bionic-security main
-deb http://us.archive.ubuntu.com/ubuntu/ bionic-updates main
-```
-
-Install bash-completion
-
-```bash
-sudo apt install vim bash-completion tmux wget
-```
-
-if the environment is newer. (Ubuntu 23.04)
-
-```bash
-sudo apt install lsd
-```
-
-if older
-
-```bash
-cd ~/Downloads
-wget https://github.com/lsd-rs/lsd/releases/download/0.23.1/lsd_0.23.1_amd64.deb
-sudo dpkg -i lsd_0.23.1_amd64.deb
-
-```
-
-exit and enter the chroot environment again.
-
-## Dirty work around if sudo fails
-
-```bash
-echo 'your_username ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-```
